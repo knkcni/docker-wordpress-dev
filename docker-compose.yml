@@ -1,0 +1,45 @@
+version: '2'
+
+services:
+    wp:
+        build: .
+        ports:
+            - 80:80
+        links:
+            - db
+        environment:
+            DB_HOST: db
+            DB_PASSWORD: knkcni
+            DB_NAME: knkcni
+            DB_USER: knkcni
+        volumes:
+            - $PWD:/var/www/:cached
+            - ./config/000-default.conf:/etc/apache2/sites-available/000-default.conf
+
+    db:
+        image: mysql:5.7
+        volumes:
+            - db-data:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: knkcni
+            MYSQL_USER: knkcni
+            MYSQL_PASSWORD: knkcni
+
+    adminer:
+        image: adminer
+        ports:
+            - 8080:8080
+    
+    cadvisor:
+        image: google/cadvisor
+        ports:
+            - 8008:8080
+        volumes:
+            - /:/rootfs:ro
+            - /var/run:/var/run:rw
+            - /sys:/sys:ro
+            - /var/lib/docker/:/var/lib/docker:ro
+        
+volumes:
+    db-data:
