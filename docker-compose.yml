@@ -13,8 +13,15 @@ services:
             DB_NAME: knkcni
             DB_USER: knkcni
         volumes:
-            - $PWD:/var/www/:cached
             - ./config/000-default.conf:/etc/apache2/sites-available/000-default.conf
+            - $PWD:/var/www/:cached
+
+#           Developping a plugin
+#           - $PWD/plugin-name/:/var/www/html/wp-content/plugins/plugin-name
+
+#           Developping a theme
+#           - $PWD/theme-name/:/var/www/html/wp-content/themes/theme-name
+
 
     db:
         image: mysql:5.7
